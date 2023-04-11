@@ -1,7 +1,9 @@
 package com.sivannsan.millidata;
 
+import com.sivannsan.foundation.annotation.Nonnegative;
 import com.sivannsan.foundation.annotation.Nonnull;
-import com.sivannsan.foundation.Validate;
+import com.sivannsan.foundation.common.Require;
+import com.sivannsan.foundation.common.Validate;
 
 import java.util.*;
 
@@ -15,14 +17,30 @@ public final class MilliMap extends MilliData {
     public MilliMap() {
     }
 
+    @SuppressWarnings("unused")
     public MilliMap(@Nonnull String key, @Nonnull MilliData value) {
-        put(Validate.nonnull(key), Validate.nonnull(value));
+        put(key, value);
     }
 
+    @SuppressWarnings("unused")
+    public MilliMap(@Nonnull String key1, @Nonnull MilliData value1, @Nonnull String key2, @Nonnull MilliData value2) {
+        put(key1, value1);
+        put(key2, value2);
+    }
+
+    @SuppressWarnings("unused")
+    public MilliMap(@Nonnull String key1, @Nonnull MilliData value1, @Nonnull String key2, @Nonnull MilliData value2, @Nonnull String key3, @Nonnull MilliData value3) {
+        put(key1, value1);
+        put(key2, value2);
+        put(key3, value3);
+    }
+
+    @SuppressWarnings("unused")
     public MilliMap(Map<?, ?> map) {
         if (map != null) this.map.putAll(Converter.convert(map).asMilliMap().asMap());
     }
 
+    @SuppressWarnings("UnusedReturnValue")
     @Nonnull
     public MilliMap append(@Nonnull String key, @Nonnull MilliData value) {
         put(key, value);
@@ -34,7 +52,9 @@ public final class MilliMap extends MilliData {
         return this == obj || obj instanceof MilliMap && map.equals(((MilliMap) obj).map);
     }
 
-    //Should be moved to MilliData?
+    /**
+     * @param level negative value for infinite deep
+     */
     public boolean superOf(@Nonnull MilliMap subMilliMap, int level) {
         for (Entry subEntry : subMilliMap.entries()) {
             boolean found = false;
@@ -56,38 +76,45 @@ public final class MilliMap extends MilliData {
         return true;
     }
 
+    @SuppressWarnings("unused")
     public boolean superOf(@Nonnull MilliMap subMilliMap) {
         return superOf(subMilliMap, 0);
     }
 
+    @SuppressWarnings("unused")
     public boolean contains(@Nonnull String key) {
-        return map.containsKey(Validate.nonnull(key));
+        return map.containsKey(Require.nonnull(key));
     }
 
+    @SuppressWarnings("unused")
     public boolean contains(@Nonnull MilliData value) {
-        return map.containsValue(Validate.nonnull(value));
+        return map.containsValue(Require.nonnull(value));
     }
 
+    @SuppressWarnings("unused")
     public boolean isEmpty() {
         return map.isEmpty();
     }
 
+    @SuppressWarnings("unused")
     public void clear() {
         map.clear();
     }
 
     public void put(@Nonnull String key, @Nonnull MilliData value) {
-        map.put(Validate.nonnull(key), Validate.nonnull(value));
+        map.put(Require.nonnull(key), Require.nonnull(value));
     }
 
+    @SuppressWarnings("unused")
     public void remove(@Nonnull String key) {
-        map.remove(Validate.nonnull(key));
+        map.remove(Require.nonnull(key));
     }
 
+    @SuppressWarnings("unused")
     @Nonnull
     public MilliData get(@Nonnull String key) {
-        MilliData data = map.get(Validate.nonnull(key));
-        return data == null ? MilliNull.INSTANCE : data;
+        MilliData data = map.get(Require.nonnull(key));
+        return Validate.ifNull(data, MilliNull.INSTANCE);
     }
 
     public int size() {
@@ -108,6 +135,7 @@ public final class MilliMap extends MilliData {
     /**
      * @return a view only key list
      */
+    @SuppressWarnings("unused")
     @Nonnull
     public List<String> keys() {
         return Arrays.asList(map.keySet().toArray(new String[0]));
@@ -116,6 +144,7 @@ public final class MilliMap extends MilliData {
     /**
      * @return a view only value list
      */
+    @SuppressWarnings("unused")
     @Nonnull
     public List<MilliData> values() {
         return Arrays.asList(map.values().toArray(new MilliData[0]));
@@ -123,7 +152,7 @@ public final class MilliMap extends MilliData {
 
     @Override
     @Nonnull
-    protected String toString(int indent, int previous) {
+    protected String toString(@Nonnegative int indent, @Nonnegative int previous) {
         Set<String> s = new TreeSet<>();
         String ss = indent > 0 ? " " : ""; //Space after :
         String tt = indent > 0 ? " ".repeat(indent + previous) : ""; //Space of the body

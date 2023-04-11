@@ -1,6 +1,8 @@
 package com.sivannsan.millidata;
 
+import com.sivannsan.foundation.annotation.Nonnegative;
 import com.sivannsan.foundation.annotation.Nonnull;
+import com.sivannsan.foundation.common.Require;
 
 import java.util.Collection;
 import java.util.Map;
@@ -9,22 +11,24 @@ import java.util.Map;
  * MilliData
  */
 public abstract class MilliData {
+    @SuppressWarnings("unused")
     public static class Parser {
         private Parser() {
         }
 
+        @SuppressWarnings("unused")
         @Nonnull
         public static MilliData parse(@Nonnull String millidata, @Nonnull MilliData defaultValue) {
             try {
                 return parse(millidata);
             } catch (MilliDataParseException e) {
-                return defaultValue;
+                return Require.nonnull(defaultValue);
             }
         }
 
         @Nonnull
         public static MilliData parse(@Nonnull String millidata) throws MilliDataParseException {
-            if (millidata.equals("null")) return MilliNull.INSTANCE;
+            if (Require.nonnull(millidata).equals("null")) return MilliNull.INSTANCE;
             char[] array = millidata.toCharArray();
             if (array.length < 2) throw new MilliDataParseException("millidata length less than 2 for not an empty string");
             if (array[0] == '"' && array[array.length - 1] == '"') {
@@ -143,25 +147,21 @@ public abstract class MilliData {
          * Null input will return MilliNull
          */
         @Nonnull
-        protected static MilliData convert(Object object) {
-            if (object instanceof MilliData) {
-                return (MilliData) object;
-            } else if (object instanceof Map<?, ?>) {
-                MilliMap m = new MilliMap();
-                for (Map.Entry<?, ?> e : ((Map<?, ?>) object).entrySet()) if (e.getValue() != null) m.append(convert(e.getKey()).asMilliValue().asString(), convert(e.getValue()));
-                return m;
-            } else if (object instanceof Collection<?>) {
-                MilliList l = new MilliList();
-                for (Object e : (Collection<?>) object) if (e != null) l.append(convert(e));
-                return l;
-            } else if (object instanceof String) {
-                return new MilliValue((String) object);
-            } else if (object instanceof Number) {
-                return new MilliValue((Number) object);
-            } else if (object instanceof Boolean) {
-                return new MilliValue((Boolean) object);
-            } else {
+        protected static MilliData convert(Object o) {
+            if (o == null) {
                 return MilliNull.INSTANCE;
+            } else if (o instanceof MilliData) {
+                return (MilliData) o;
+            } else if (o instanceof Map<?, ?>) {
+                MilliMap m = new MilliMap();
+                for (Map.Entry<?, ?> e : ((Map<?, ?>) o).entrySet()) if (e.getValue() != null) m.append(convert(e.getKey()).asMilliValue().asString(), convert(e.getValue()));
+                return m;
+            } else if (o instanceof Collection<?>) {
+                MilliList l = new MilliList();
+                for (Object e : (Collection<?>) o) if (e != null) l.append(convert(e));
+                return l;
+            } else {
+                return new MilliValue(o);
             }
         }
     }
@@ -176,21 +176,25 @@ public abstract class MilliData {
     }
 
     @Nonnull
-    public String toString(int indent) {
-        return toString(indent, 0);
+    public String toString(@Nonnegative int indent) {
+        return toString(Require.nonnegative(indent), 0);
     }
 
     @Nonnull
     protected abstract String toString(int indent, int previous);
 
+    /**
+     * @param level negative value for infinite deep
+     */
     public final boolean superOf(@Nonnull MilliData subMilliData, int level) {
-        if (isMilliNull() && subMilliData.isMilliNull()) return true; //Any additional considerations?
+        if (isMilliNull() && subMilliData.isMilliNull()) return true;
         else if (isMilliValue() && subMilliData.isMilliValue()) return asMilliValue().superOf(subMilliData.asMilliValue());
         else if (isMilliList() && subMilliData.isMilliList()) return asMilliList().superOf(subMilliData.asMilliList(), level);
         else if (isMilliMap() && subMilliData.isMilliMap()) return asMilliMap().superOf(subMilliData.asMilliMap(), level);
         else return false;
     }
 
+    @SuppressWarnings("unused")
     public final boolean superOf(@Nonnull MilliData subMilliData) {
         return superOf(subMilliData, 0);
     }
@@ -223,9 +227,10 @@ public abstract class MilliData {
     /**
      * If this object is not a MilliValue, this method will return the defaultValue
      */
+    @SuppressWarnings("unused")
     @Nonnull
     public final MilliValue asMilliValue(@Nonnull MilliValue defaultValue) {
-        return isMilliValue() ? asMilliValue() : defaultValue;
+        return isMilliValue() ? asMilliValue() : Require.nonnull(defaultValue);
     }
 
     /**
@@ -241,9 +246,10 @@ public abstract class MilliData {
      * If this object is not a MilliList, this method will return the defaultValue
      * But note that modifying the defaultValue won't affect the original data
      */
+    @SuppressWarnings("unused")
     @Nonnull
     public final MilliList asMilliList(@Nonnull MilliList defaultValue) {
-        return isMilliList() ? asMilliList() : defaultValue;
+        return isMilliList() ? asMilliList() : Require.nonnull(defaultValue);
     }
 
     /**
@@ -259,8 +265,9 @@ public abstract class MilliData {
      * If this object is not a MilliMap, this method will return the defaultValue
      * But note that modifying the defaultValue won't affect the original data
      */
+    @SuppressWarnings("unused")
     @Nonnull
     public final MilliMap asMilliMap(@Nonnull MilliMap defaultValue) {
-        return isMilliMap() ? asMilliMap() : defaultValue;
+        return isMilliMap() ? asMilliMap() : Require.nonnull(defaultValue);
     }
 }

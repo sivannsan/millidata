@@ -1,7 +1,7 @@
 package com.sivannsan.millidata;
 
+import com.sivannsan.foundation.annotation.Nonnegative;
 import com.sivannsan.foundation.annotation.Nonnull;
-import com.sivannsan.foundation.Validate;
 
 /**
  * MilliValue
@@ -10,20 +10,16 @@ public final class MilliValue extends MilliData implements Comparable<MilliValue
     @Nonnull
     private final String value;
 
+    @SuppressWarnings("unused")
     public MilliValue() {
         this("");
     }
 
-    public MilliValue(@Nonnull String str) {
-        this.value = Validate.nonnull(str);
-    }
-
-    public MilliValue(@Nonnull Number num) {
-        this(String.valueOf(num));
-    }
-
-    public MilliValue(@Nonnull Boolean bool) {
-        this(bool ? "true" : "false");
+    /**
+     * String.valueOf(o)
+     */
+    public MilliValue(Object o) {
+        value = String.valueOf(o);
     }
 
     @Override
@@ -33,11 +29,10 @@ public final class MilliValue extends MilliData implements Comparable<MilliValue
 
     @Override
     @Nonnull
-    protected String toString(int indent, int previous) {
+    protected String toString(@Nonnegative int indent, @Nonnegative int previous) {
         return "\"" + value.replace("\\", "\\\\").replace("\"", "\\\"").replace("\t", "\\t").replace("\n", "\\n") + "\"";
     }
 
-    //Should be moved to MilliData?
     public boolean superOf(@Nonnull MilliValue subMilliValue) {
         return value.contains(subMilliValue.value);
     }
@@ -47,67 +42,82 @@ public final class MilliValue extends MilliData implements Comparable<MilliValue
         return value;
     }
 
+    @SuppressWarnings("unused")
     public boolean isInteger32() {
+        boolean result = true;
         try {
             asInteger32();
-        } catch (Exception e) {
-            return false;
+        } catch (NumberFormatException e) {
+            result = false;
         }
-        return true;
+        return result;
     }
 
+    @SuppressWarnings("unused")
     public boolean isInteger64() {
+        boolean result = true;
         try {
             asInteger64();
-        } catch (Exception e) {
-            return false;
+        } catch (NumberFormatException e) {
+            result = false;
         }
-        return true;
+        return result;
     }
 
+    @SuppressWarnings("unused")
     public boolean isFloat32() {
+        boolean result = true;
         try {
             asFloat32();
-        } catch (Exception e) {
-            return false;
+        } catch (NumberFormatException e) {
+            result = false;
         }
-        return true;
+        return result;
     }
 
+    @SuppressWarnings("unused")
     public boolean isFloat64() {
+        boolean result = true;
         try {
             asFloat64();
-        } catch (Exception e) {
-            return false;
+        } catch (NumberFormatException e) {
+            result = false;
         }
-        return true;
+        return result;
     }
 
+    @SuppressWarnings("unused")
     public boolean isBoolean() {
+        boolean result = true;
         try {
             asBoolean();
-        } catch (Exception e) {
-            return false;
+        } catch (IllegalStateException e) {
+            result = false;
         }
-        return true;
+        return result;
     }
 
+    @SuppressWarnings("UnusedReturnValue")
     public int asInteger32() throws NumberFormatException {
         return Integer.parseInt(value);
     }
 
+    @SuppressWarnings("UnusedReturnValue")
     public long asInteger64() throws NumberFormatException {
         return Long.parseLong(value);
     }
 
+    @SuppressWarnings("UnusedReturnValue")
     public float asFloat32() throws NumberFormatException {
         return Float.parseFloat(value);
     }
 
+    @SuppressWarnings("UnusedReturnValue")
     public double asFloat64() throws NumberFormatException {
         return Double.parseDouble(value);
     }
 
+    @SuppressWarnings("UnusedReturnValue")
     public boolean asBoolean() throws IllegalStateException {
         if (value.equals("true")) return true;
         if (value.equals("false")) return false;
