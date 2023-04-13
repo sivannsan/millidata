@@ -6,11 +6,11 @@ import com.sivannsan.foundation.annotation.Nonnull;
 /**
  * MilliValue
  */
+@SuppressWarnings({"unused", "UnusedReturnValue"})
 public final class MilliValue extends MilliData implements Comparable<MilliValue> {
     @Nonnull
     private final String value;
 
-    @SuppressWarnings("unused")
     public MilliValue() {
         this("");
     }
@@ -42,7 +42,6 @@ public final class MilliValue extends MilliData implements Comparable<MilliValue
         return value;
     }
 
-    @SuppressWarnings("unused")
     public boolean isInteger32() {
         boolean result = true;
         try {
@@ -53,7 +52,6 @@ public final class MilliValue extends MilliData implements Comparable<MilliValue
         return result;
     }
 
-    @SuppressWarnings("unused")
     public boolean isInteger64() {
         boolean result = true;
         try {
@@ -64,7 +62,6 @@ public final class MilliValue extends MilliData implements Comparable<MilliValue
         return result;
     }
 
-    @SuppressWarnings("unused")
     public boolean isFloat32() {
         boolean result = true;
         try {
@@ -75,7 +72,6 @@ public final class MilliValue extends MilliData implements Comparable<MilliValue
         return result;
     }
 
-    @SuppressWarnings("unused")
     public boolean isFloat64() {
         boolean result = true;
         try {
@@ -86,7 +82,6 @@ public final class MilliValue extends MilliData implements Comparable<MilliValue
         return result;
     }
 
-    @SuppressWarnings("unused")
     public boolean isBoolean() {
         boolean result = true;
         try {
@@ -97,27 +92,22 @@ public final class MilliValue extends MilliData implements Comparable<MilliValue
         return result;
     }
 
-    @SuppressWarnings("UnusedReturnValue")
     public int asInteger32() throws NumberFormatException {
         return Integer.parseInt(value);
     }
 
-    @SuppressWarnings("UnusedReturnValue")
     public long asInteger64() throws NumberFormatException {
         return Long.parseLong(value);
     }
 
-    @SuppressWarnings("UnusedReturnValue")
     public float asFloat32() throws NumberFormatException {
         return Float.parseFloat(value);
     }
 
-    @SuppressWarnings("UnusedReturnValue")
     public double asFloat64() throws NumberFormatException {
         return Double.parseDouble(value);
     }
 
-    @SuppressWarnings("UnusedReturnValue")
     public boolean asBoolean() throws IllegalStateException {
         if (value.equals("true")) return true;
         if (value.equals("false")) return false;

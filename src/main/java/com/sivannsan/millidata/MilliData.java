@@ -10,13 +10,12 @@ import java.util.Map;
 /**
  * MilliData
  */
+@SuppressWarnings("unused")
 public abstract class MilliData {
-    @SuppressWarnings("unused")
     public static class Parser {
         private Parser() {
         }
 
-        @SuppressWarnings("unused")
         @Nonnull
         public static MilliData parse(@Nonnull String millidata, @Nonnull MilliData defaultValue) {
             try {
@@ -194,7 +193,6 @@ public abstract class MilliData {
         else return false;
     }
 
-    @SuppressWarnings("unused")
     public final boolean superOf(@Nonnull MilliData subMilliData) {
         return superOf(subMilliData, 0);
     }
@@ -227,7 +225,6 @@ public abstract class MilliData {
     /**
      * If this object is not a MilliValue, this method will return the defaultValue
      */
-    @SuppressWarnings("unused")
     @Nonnull
     public final MilliValue asMilliValue(@Nonnull MilliValue defaultValue) {
         return isMilliValue() ? asMilliValue() : Validate.nonnull(defaultValue);
@@ -246,7 +243,6 @@ public abstract class MilliData {
      * If this object is not a MilliList, this method will return the defaultValue
      * But note that modifying the defaultValue won't affect the original data
      */
-    @SuppressWarnings("unused")
     @Nonnull
     public final MilliList asMilliList(@Nonnull MilliList defaultValue) {
         return isMilliList() ? asMilliList() : Validate.nonnull(defaultValue);
@@ -265,7 +261,6 @@ public abstract class MilliData {
      * If this object is not a MilliMap, this method will return the defaultValue
      * But note that modifying the defaultValue won't affect the original data
      */
-    @SuppressWarnings("unused")
     @Nonnull
     public final MilliMap asMilliMap(@Nonnull MilliMap defaultValue) {
         return isMilliMap() ? asMilliMap() : Validate.nonnull(defaultValue);

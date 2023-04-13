@@ -10,6 +10,7 @@ import java.util.*;
 /**
  * MilliMap
  */
+@SuppressWarnings({"unused", "UnusedReturnValue"})
 public final class MilliMap extends MilliData {
     @Nonnull
     private final Map<String, MilliData> map = new TreeMap<>();
@@ -17,30 +18,25 @@ public final class MilliMap extends MilliData {
     public MilliMap() {
     }
 
-    @SuppressWarnings("unused")
     public MilliMap(@Nonnull String key, @Nonnull MilliData value) {
         put(key, value);
     }
 
-    @SuppressWarnings("unused")
     public MilliMap(@Nonnull String key1, @Nonnull MilliData value1, @Nonnull String key2, @Nonnull MilliData value2) {
         put(key1, value1);
         put(key2, value2);
     }
 
-    @SuppressWarnings("unused")
     public MilliMap(@Nonnull String key1, @Nonnull MilliData value1, @Nonnull String key2, @Nonnull MilliData value2, @Nonnull String key3, @Nonnull MilliData value3) {
         put(key1, value1);
         put(key2, value2);
         put(key3, value3);
     }
 
-    @SuppressWarnings("unused")
     public MilliMap(Map<?, ?> map) {
         if (map != null) this.map.putAll(Converter.convert(map).asMilliMap().asMap());
     }
 
-    @SuppressWarnings("UnusedReturnValue")
     @Nonnull
     public MilliMap append(@Nonnull String key, @Nonnull MilliData value) {
         put(key, value);
@@ -76,27 +72,22 @@ public final class MilliMap extends MilliData {
         return true;
     }
 
-    @SuppressWarnings("unused")
     public boolean superOf(@Nonnull MilliMap subMilliMap) {
         return superOf(subMilliMap, 0);
     }
 
-    @SuppressWarnings("unused")
     public boolean contains(@Nonnull String key) {
         return map.containsKey(Validate.nonnull(key));
     }
 
-    @SuppressWarnings("unused")
     public boolean contains(@Nonnull MilliData value) {
         return map.containsValue(Validate.nonnull(value));
     }
 
-    @SuppressWarnings("unused")
     public boolean isEmpty() {
         return map.isEmpty();
     }
 
-    @SuppressWarnings("unused")
     public void clear() {
         map.clear();
     }
@@ -105,12 +96,10 @@ public final class MilliMap extends MilliData {
         map.put(Validate.nonnull(key), Validate.nonnull(value));
     }
 
-    @SuppressWarnings("unused")
     public void remove(@Nonnull String key) {
         map.remove(Validate.nonnull(key));
     }
 
-    @SuppressWarnings("unused")
     @Nonnull
     public MilliData get(@Nonnull String key) {
         MilliData data = map.get(Validate.nonnull(key));
@@ -135,7 +124,6 @@ public final class MilliMap extends MilliData {
     /**
      * @return a view only key list
      */
-    @SuppressWarnings("unused")
     @Nonnull
     public List<String> keys() {
         return Arrays.asList(map.keySet().toArray(new String[0]));
@@ -144,7 +132,6 @@ public final class MilliMap extends MilliData {
     /**
      * @return a view only value list
      */
-    @SuppressWarnings("unused")
     @Nonnull
     public List<MilliData> values() {
         return Arrays.asList(map.values().toArray(new MilliData[0]));
