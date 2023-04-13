@@ -1,7 +1,7 @@
 package com.sivannsan.millidata;
 
 import com.sivannsan.foundation.annotation.Nonnull;
-import com.sivannsan.foundation.common.Require;
+import com.sivannsan.foundation.common.Validate;
 
 public class MilliDataParseException extends RuntimeException {
     public MilliDataParseException() {
@@ -9,6 +9,6 @@ public class MilliDataParseException extends RuntimeException {
     }
 
     public MilliDataParseException(@Nonnull String message) {
-        super(Require.nonnull(message));
+        super(Validate.nonnull(message));
     }
 }

@@ -2,7 +2,7 @@ package com.sivannsan.millidata;
 
 import com.sivannsan.foundation.annotation.Nonnegative;
 import com.sivannsan.foundation.annotation.Nonnull;
-import com.sivannsan.foundation.common.Require;
+import com.sivannsan.foundation.common.Validate;
 
 import java.util.Collection;
 import java.util.Map;
@@ -22,13 +22,13 @@ public abstract class MilliData {
             try {
                 return parse(millidata);
             } catch (MilliDataParseException e) {
-                return Require.nonnull(defaultValue);
+                return Validate.nonnull(defaultValue);
             }
         }
 
         @Nonnull
         public static MilliData parse(@Nonnull String millidata) throws MilliDataParseException {
-            if (Require.nonnull(millidata).equals("null")) return MilliNull.INSTANCE;
+            if (Validate.nonnull(millidata).equals("null")) return MilliNull.INSTANCE;
             char[] array = millidata.toCharArray();
             if (array.length < 2) throw new MilliDataParseException("millidata length less than 2 for not an empty string");
             if (array[0] == '"' && array[array.length - 1] == '"') {
@@ -177,7 +177,7 @@ public abstract class MilliData {
 
     @Nonnull
     public String toString(@Nonnegative int indent) {
-        return toString(Require.nonnegative(indent), 0);
+        return toString(Validate.nonnegative(indent), 0);
     }
 
     @Nonnull
@@ -230,7 +230,7 @@ public abstract class MilliData {
     @SuppressWarnings("unused")
     @Nonnull
     public final MilliValue asMilliValue(@Nonnull MilliValue defaultValue) {
-        return isMilliValue() ? asMilliValue() : Require.nonnull(defaultValue);
+        return isMilliValue() ? asMilliValue() : Validate.nonnull(defaultValue);
     }
 
     /**
@@ -249,7 +249,7 @@ public abstract class MilliData {
     @SuppressWarnings("unused")
     @Nonnull
     public final MilliList asMilliList(@Nonnull MilliList defaultValue) {
-        return isMilliList() ? asMilliList() : Require.nonnull(defaultValue);
+        return isMilliList() ? asMilliList() : Validate.nonnull(defaultValue);
     }
 
     /**
@@ -268,6 +268,6 @@ public abstract class MilliData {
     @SuppressWarnings("unused")
     @Nonnull
     public final MilliMap asMilliMap(@Nonnull MilliMap defaultValue) {
-        return isMilliMap() ? asMilliMap() : Require.nonnull(defaultValue);
+        return isMilliMap() ? asMilliMap() : Validate.nonnull(defaultValue);
     }
 }

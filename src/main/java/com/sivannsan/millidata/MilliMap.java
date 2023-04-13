@@ -2,7 +2,7 @@ package com.sivannsan.millidata;
 
 import com.sivannsan.foundation.annotation.Nonnegative;
 import com.sivannsan.foundation.annotation.Nonnull;
-import com.sivannsan.foundation.common.Require;
+import com.sivannsan.foundation.common.Ensure;
 import com.sivannsan.foundation.common.Validate;
 
 import java.util.*;
@@ -83,12 +83,12 @@ public final class MilliMap extends MilliData {
 
     @SuppressWarnings("unused")
     public boolean contains(@Nonnull String key) {
-        return map.containsKey(Require.nonnull(key));
+        return map.containsKey(Validate.nonnull(key));
     }
 
     @SuppressWarnings("unused")
     public boolean contains(@Nonnull MilliData value) {
-        return map.containsValue(Require.nonnull(value));
+        return map.containsValue(Validate.nonnull(value));
     }
 
     @SuppressWarnings("unused")
@@ -102,19 +102,19 @@ public final class MilliMap extends MilliData {
     }
 
     public void put(@Nonnull String key, @Nonnull MilliData value) {
-        map.put(Require.nonnull(key), Require.nonnull(value));
+        map.put(Validate.nonnull(key), Validate.nonnull(value));
     }
 
     @SuppressWarnings("unused")
     public void remove(@Nonnull String key) {
-        map.remove(Require.nonnull(key));
+        map.remove(Validate.nonnull(key));
     }
 
     @SuppressWarnings("unused")
     @Nonnull
     public MilliData get(@Nonnull String key) {
-        MilliData data = map.get(Require.nonnull(key));
-        return Validate.ifNull(data, MilliNull.INSTANCE);
+        MilliData data = map.get(Validate.nonnull(key));
+        return Ensure.ifNull(data, MilliNull.INSTANCE);
     }
 
     public int size() {

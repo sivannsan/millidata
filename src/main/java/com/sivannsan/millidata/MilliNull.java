@@ -5,8 +5,6 @@ import com.sivannsan.foundation.annotation.Nonnull;
 
 /**
  * MilliNull
- * <p>
- * The two possible values from Java String are "" and "null" //TODO: Really allow "" ?
  */
 public final class MilliNull extends MilliData {
     @Nonnull

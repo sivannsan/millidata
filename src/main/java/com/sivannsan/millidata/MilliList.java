@@ -3,7 +3,7 @@ package com.sivannsan.millidata;
 import com.sivannsan.foundation.annotation.Nonnegative;
 import com.sivannsan.foundation.annotation.Nonnull;
 import com.sivannsan.foundation.common.Check;
-import com.sivannsan.foundation.common.Require;
+import com.sivannsan.foundation.common.Ensure;
 import com.sivannsan.foundation.common.Validate;
 
 import java.util.ArrayList;
@@ -23,7 +23,7 @@ public final class MilliList extends MilliData implements Iterable<MilliData> {
 
     @SuppressWarnings("unused")
     public MilliList(@Nonnegative int size) {
-        for (int i = 0; i < Require.nonnegative(size); i++) add(MilliNull.INSTANCE);
+        for (int i = 0; i < Validate.nonnegative(size); i++) add(MilliNull.INSTANCE);
     }
 
     @SuppressWarnings("unused")
@@ -52,7 +52,7 @@ public final class MilliList extends MilliData implements Iterable<MilliData> {
      * @param level negative value for infinite deep
      */
     public boolean superOf(@Nonnull MilliList subMilliList, int level) {
-        for (MilliData subData : Require.nonnull(subMilliList)) {
+        for (MilliData subData : Validate.nonnull(subMilliList)) {
             if (level == 0) {
                 if (!list.contains(subData)) return false;
             } else {
@@ -82,7 +82,7 @@ public final class MilliList extends MilliData implements Iterable<MilliData> {
 
     @SuppressWarnings("unused")
     public boolean contains(@Nonnull MilliData element) {
-        return list.contains(Require.nonnull(element));
+        return list.contains(Validate.nonnull(element));
     }
 
     @SuppressWarnings("unused")
@@ -102,7 +102,7 @@ public final class MilliList extends MilliData implements Iterable<MilliData> {
      * Adds the specified element to the end
      */
     public void add(@Nonnull MilliData element) {
-        list.add(Require.nonnull(element));
+        list.add(Validate.nonnull(element));
     }
 
     /**
@@ -110,7 +110,7 @@ public final class MilliList extends MilliData implements Iterable<MilliData> {
      */
     @SuppressWarnings("unused")
     public void update(int index, @Nonnull MilliData element) {
-        if (index >= 0 || index < size()) list.set(index, Require.nonnull(element));
+        if (index >= 0 || index < size()) list.set(index, Validate.nonnull(element));
     }
 
     /**
@@ -124,8 +124,8 @@ public final class MilliList extends MilliData implements Iterable<MilliData> {
     @SuppressWarnings("unused")
     @Nonnull
     public MilliData get(int index) {
-        MilliData data = Check.isInBounds(list, index) ? list.get(index) : null;
-        return Validate.ifNull(data, MilliNull.INSTANCE);
+        MilliData data = Check.withinBounds(list, index) ? list.get(index) : null;
+        return Ensure.ifNull(data, MilliNull.INSTANCE);
     }
 
     public int size() {
