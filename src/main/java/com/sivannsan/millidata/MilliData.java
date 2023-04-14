@@ -27,8 +27,9 @@ public abstract class MilliData {
 
         @Nonnull
         public static MilliData parse(@Nonnull String millidata) throws MilliDataParseException {
-            if (Validate.nonnull(millidata).trim().equals("null")) return MilliNull.INSTANCE;
-            char[] array = millidata.trim().toCharArray();
+            millidata = Validate.nonnull(millidata).trim();
+            if (millidata.equals("null")) return MilliNull.INSTANCE;
+            char[] array = millidata.toCharArray();
             if (array.length < 2) throw new MilliDataParseException("The trimmed millidata length less than 2 for not an empty string");
             if (array[0] == '"' && array[array.length - 1] == '"') {
                 char p = '?';
