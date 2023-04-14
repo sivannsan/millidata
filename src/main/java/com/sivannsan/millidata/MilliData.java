@@ -106,7 +106,6 @@ public abstract class MilliData {
             boolean str = false;
             char p = '?';
             for (char c : e.toCharArray()) {
-                if (c == ' ' && !str) continue;
                 if (c == ':' && !str) return new Entry(e.substring(0, i).trim(), e.substring(i + 1).trim());
                 if (c == '"' && p != '\\') str = !str;
                 p = c == '\\' && p == '\\' ? '?' : c;
