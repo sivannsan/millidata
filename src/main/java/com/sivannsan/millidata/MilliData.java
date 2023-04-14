@@ -27,9 +27,9 @@ public abstract class MilliData {
 
         @Nonnull
         public static MilliData parse(@Nonnull String millidata) throws MilliDataParseException {
-            if (Validate.nonnull(millidata).equals("null")) return MilliNull.INSTANCE;
-            char[] array = millidata.toCharArray();
-            if (array.length < 2) throw new MilliDataParseException("millidata length less than 2 for not an empty string");
+            if (Validate.nonnull(millidata).trim().equals("null")) return MilliNull.INSTANCE;
+            char[] array = millidata.trim().toCharArray();
+            if (array.length < 2) throw new MilliDataParseException("The trimmed millidata length less than 2 for not an empty string");
             if (array[0] == '"' && array[array.length - 1] == '"') {
                 char p = '?';
                 for (int i = 1; i < array.length - 1; i++) {
@@ -46,7 +46,7 @@ public abstract class MilliData {
                     char c = array[i];
                     String f = e.toString();
                     if (c == ',' && balance(f)) {
-                        list.add(parse(f.trim()));
+                        list.add(parse(f));
                         e = new StringBuilder();
                         continue;
                     }
@@ -54,7 +54,7 @@ public abstract class MilliData {
                 }
                 if (e.length() > 0 || list.size() > 0) {
                     String f = e.toString();
-                    list.add(parse(f.trim()));
+                    list.add(parse(f));
                 }
                 return list;
             }
@@ -101,12 +101,13 @@ public abstract class MilliData {
         }
 
         private static Entry entry(@Nonnull String e) {
+            e = Validate.nonnull(e).trim();
             if (e.length() < 3 || e.charAt(0) != '"') return null;
             int i = 0;
             boolean str = false;
             char p = '?';
             for (char c : e.toCharArray()) {
-                if (c == ':' && !str) return new Entry(e.substring(0, i).trim(), e.substring(i + 1).trim());
+                if (c == ':' && !str) return new Entry(e.substring(0, i), e.substring(i + 1));
                 if (c == '"' && p != '\\') str = !str;
                 p = c == '\\' && p == '\\' ? '?' : c;
                 i++;
