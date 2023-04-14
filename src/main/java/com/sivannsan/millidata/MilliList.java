@@ -102,7 +102,7 @@ public final class MilliList extends MilliData implements Iterable<MilliData> {
      * Updates at the specified index to the specified element, or in another word, replaces the element at the specified index with the specified element
      */
     public void update(int index, @Nonnull MilliData element) {
-        if (index >= 0 || index < size()) list.set(index, Validate.nonnull(element));
+        if (Check.withinBounds(list, index)) list.set(index, Validate.nonnull(element));
     }
 
     /**
