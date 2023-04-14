@@ -46,7 +46,7 @@ public abstract class MilliData {
                     char c = array[i];
                     String f = e.toString();
                     if (c == ',' && balance(f)) {
-                        list.add(parse(f));
+                        list.add(parse(f.trim()));
                         e = new StringBuilder();
                         continue;
                     }
@@ -54,7 +54,7 @@ public abstract class MilliData {
                 }
                 if (e.length() > 0 || list.size() > 0) {
                     String f = e.toString();
-                    list.add(parse(f));
+                    list.add(parse(f.trim()));
                 }
                 return list;
             }
@@ -106,7 +106,8 @@ public abstract class MilliData {
             boolean str = false;
             char p = '?';
             for (char c : e.toCharArray()) {
-                if (c == ':' && !str) return new Entry(e.substring(0, i), e.substring(i + 1));
+                if (c == ' ' && !str) continue;
+                if (c == ':' && !str) return new Entry(e.substring(0, i).trim(), e.substring(i + 1).trim());
                 if (c == '"' && p != '\\') str = !str;
                 p = c == '\\' && p == '\\' ? '?' : c;
                 i++;
