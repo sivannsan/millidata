@@ -1,14 +1,14 @@
 package com.sivannsan.millidata;
 
-import com.sivannsan.foundation.annotation.Nonnegative;
-import com.sivannsan.foundation.annotation.Nonnull;
-import com.sivannsan.foundation.common.Validate;
-
 import java.util.Collection;
 import java.util.Map;
+import java.util.Objects;
 
 /**
- * MilliData
+ * @see com.sivannsan.millidata.MilliNull
+ * @see com.sivannsan.millidata.MilliValue
+ * @see com.sivannsan.millidata.MilliList
+ * @see com.sivannsan.millidata.MilliMap
  */
 @SuppressWarnings("unused")
 public abstract class MilliData {
@@ -16,18 +16,16 @@ public abstract class MilliData {
         private Parser() {
         }
 
-        @Nonnull
-        public static MilliData parse(@Nonnull String millidata, @Nonnull MilliData defaultValue) {
+        public static MilliData parse(String millidata, MilliData defaultValue) {
             try {
                 return parse(millidata);
             } catch (MilliDataParseException e) {
-                return Validate.nonnull(defaultValue);
+                return Objects.requireNonNull(defaultValue);
             }
         }
 
-        @Nonnull
-        public static MilliData parse(@Nonnull String millidata) throws MilliDataParseException {
-            millidata = Validate.nonnull(millidata).trim();
+        public static MilliData parse(String millidata) throws MilliDataParseException {
+            millidata = millidata.trim();
             if (millidata.equals("null")) return MilliNull.INSTANCE;
             char[] array = millidata.toCharArray();
             if (array.length < 2) throw new MilliDataParseException("The trimmed millidata length less than 2 for not an empty string");
@@ -101,8 +99,8 @@ public abstract class MilliData {
             return cb == 0 && sb == 0 && !str;
         }
 
-        private static Entry entry(@Nonnull String e) {
-            e = Validate.nonnull(e).trim();
+        private static Entry entry(String e) {
+            e = e.trim();
             if (e.length() < 3 || e.charAt(0) != '"') return null;
             int i = 0;
             boolean str = false;
@@ -117,22 +115,18 @@ public abstract class MilliData {
         }
 
         private static class Entry {
-            @Nonnull
             private final String key;
-            @Nonnull
             private final String value;
 
-            public Entry(@Nonnull String key, @Nonnull String value) {
+            public Entry(String key, String value) {
                 this.key = key;
                 this.value = value;
             }
 
-            @Nonnull
             public String key() {
                 return key;
             }
 
-            @Nonnull
             public String value() {
                 return value;
             }
@@ -147,7 +141,6 @@ public abstract class MilliData {
          * Convert from java object to millidata
          * Null input will return MilliNull
          */
-        @Nonnull
         protected static MilliData convert(Object o) {
             if (o == null) {
                 return MilliNull.INSTANCE;
@@ -171,23 +164,20 @@ public abstract class MilliData {
     public abstract boolean equals(Object obj);
 
     @Override
-    @Nonnull
     public String toString() {
         return toString(0);
     }
 
-    @Nonnull
-    public String toString(@Nonnegative int indent) {
-        return toString(Validate.nonnegative(indent), 0);
+    public String toString(int indent) {
+        return toString(indent, 0);
     }
 
-    @Nonnull
     protected abstract String toString(int indent, int previous);
 
     /**
      * @param level negative value for infinite deep
      */
-    public final boolean superOf(@Nonnull MilliData subMilliData, int level) {
+    public final boolean superOf(MilliData subMilliData, int level) {
         if (isMilliNull() && subMilliData.isMilliNull()) return true;
         else if (isMilliValue() && subMilliData.isMilliValue()) return asMilliValue().superOf(subMilliData.asMilliValue());
         else if (isMilliList() && subMilliData.isMilliList()) return asMilliList().superOf(subMilliData.asMilliList(), level);
@@ -195,7 +185,7 @@ public abstract class MilliData {
         else return false;
     }
 
-    public final boolean superOf(@Nonnull MilliData subMilliData) {
+    public final boolean superOf(MilliData subMilliData) {
         return superOf(subMilliData, 0);
     }
 
@@ -218,7 +208,6 @@ public abstract class MilliData {
     /**
      * Cast this MilliData as MilliValue
      */
-    @Nonnull
     public final MilliValue asMilliValue() throws ClassCastException {
         if (isMilliValue()) return (MilliValue) this;
         throw new ClassCastException("Not a MilliValue");
@@ -227,15 +216,13 @@ public abstract class MilliData {
     /**
      * If this object is not a MilliValue, this method will return the defaultValue
      */
-    @Nonnull
-    public final MilliValue asMilliValue(@Nonnull MilliValue defaultValue) {
-        return isMilliValue() ? asMilliValue() : Validate.nonnull(defaultValue);
+    public final MilliValue asMilliValue(MilliValue defaultValue) {
+        return isMilliValue() ? asMilliValue() : Objects.requireNonNull(defaultValue);
     }
 
     /**
      * Cast this MilliData as MilliList
      */
-    @Nonnull
     public final MilliList asMilliList() throws ClassCastException {
         if (isMilliList()) return (MilliList) this;
         throw new ClassCastException("Not a MilliList");
@@ -245,15 +232,13 @@ public abstract class MilliData {
      * If this object is not a MilliList, this method will return the defaultValue
      * But note that modifying the defaultValue won't affect the original data
      */
-    @Nonnull
-    public final MilliList asMilliList(@Nonnull MilliList defaultValue) {
-        return isMilliList() ? asMilliList() : Validate.nonnull(defaultValue);
+    public final MilliList asMilliList(MilliList defaultValue) {
+        return isMilliList() ? asMilliList() : Objects.requireNonNull(defaultValue);
     }
 
     /**
      * Cast this MilliData as MilliMap
      */
-    @Nonnull
     public final MilliMap asMilliMap() throws ClassCastException {
         if (isMilliMap()) return (MilliMap) this;
         throw new ClassCastException("Not a MilliMap");
@@ -263,8 +248,7 @@ public abstract class MilliData {
      * If this object is not a MilliMap, this method will return the defaultValue
      * But note that modifying the defaultValue won't affect the original data
      */
-    @Nonnull
-    public final MilliMap asMilliMap(@Nonnull MilliMap defaultValue) {
-        return isMilliMap() ? asMilliMap() : Validate.nonnull(defaultValue);
+    public final MilliMap asMilliMap(MilliMap defaultValue) {
+        return isMilliMap() ? asMilliMap() : Objects.requireNonNull(defaultValue);
     }
 }

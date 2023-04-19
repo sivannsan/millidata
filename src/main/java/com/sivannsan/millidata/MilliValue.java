@@ -1,14 +1,7 @@
 package com.sivannsan.millidata;
 
-import com.sivannsan.foundation.annotation.Nonnegative;
-import com.sivannsan.foundation.annotation.Nonnull;
-
-/**
- * MilliValue
- */
 @SuppressWarnings({"unused", "UnusedReturnValue"})
 public final class MilliValue extends MilliData implements Comparable<MilliValue> {
-    @Nonnull
     private final String value;
 
     public MilliValue() {
@@ -28,54 +21,52 @@ public final class MilliValue extends MilliData implements Comparable<MilliValue
     }
 
     @Override
-    @Nonnull
-    protected String toString(@Nonnegative int indent, @Nonnegative int previous) {
+    protected String toString(int indent, int previous) {
         return "\"" + value.replace("\\", "\\\\").replace("\"", "\\\"").replace("\t", "\\t").replace("\n", "\\n") + "\"";
     }
 
-    public boolean superOf(@Nonnull MilliValue subMilliValue) {
+    public boolean superOf(MilliValue subMilliValue) {
         return value.contains(subMilliValue.value);
     }
 
-    @Nonnull
     public String asString() {
         return value;
     }
 
-    public boolean isInteger32() {
+    public boolean isInteger() {
         boolean result = true;
         try {
-            asInteger32();
+            asInteger();
         } catch (NumberFormatException e) {
             result = false;
         }
         return result;
     }
 
-    public boolean isInteger64() {
+    public boolean isLong() {
         boolean result = true;
         try {
-            asInteger64();
+            asLong();
         } catch (NumberFormatException e) {
             result = false;
         }
         return result;
     }
 
-    public boolean isFloat32() {
+    public boolean isFloat() {
         boolean result = true;
         try {
-            asFloat32();
+            asFloat();
         } catch (NumberFormatException e) {
             result = false;
         }
         return result;
     }
 
-    public boolean isFloat64() {
+    public boolean isDouble() {
         boolean result = true;
         try {
-            asFloat64();
+            asDouble();
         } catch (NumberFormatException e) {
             result = false;
         }
@@ -92,19 +83,19 @@ public final class MilliValue extends MilliData implements Comparable<MilliValue
         return result;
     }
 
-    public int asInteger32() throws NumberFormatException {
+    public int asInteger() throws NumberFormatException {
         return Integer.parseInt(value);
     }
 
-    public long asInteger64() throws NumberFormatException {
+    public long asLong() throws NumberFormatException {
         return Long.parseLong(value);
     }
 
-    public float asFloat32() throws NumberFormatException {
+    public float asFloat() throws NumberFormatException {
         return Float.parseFloat(value);
     }
 
-    public double asFloat64() throws NumberFormatException {
+    public double asDouble() throws NumberFormatException {
         return Double.parseDouble(value);
     }
 
@@ -115,7 +106,7 @@ public final class MilliValue extends MilliData implements Comparable<MilliValue
     }
 
     @Override
-    public int compareTo(@Nonnull MilliValue o) {
+    public int compareTo(MilliValue o) {
         return value.compareTo(o.value);
     }
 }

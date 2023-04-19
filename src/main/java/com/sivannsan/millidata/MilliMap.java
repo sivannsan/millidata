@@ -1,33 +1,24 @@
 package com.sivannsan.millidata;
 
-import com.sivannsan.foundation.annotation.Nonnegative;
-import com.sivannsan.foundation.annotation.Nonnull;
-import com.sivannsan.foundation.common.Ensure;
-import com.sivannsan.foundation.common.Validate;
-
 import java.util.*;
 
-/**
- * MilliMap
- */
 @SuppressWarnings({"unused", "UnusedReturnValue"})
 public final class MilliMap extends MilliData {
-    @Nonnull
     private final Map<String, MilliData> map = new TreeMap<>();
 
     public MilliMap() {
     }
 
-    public MilliMap(@Nonnull String key, @Nonnull MilliData value) {
+    public MilliMap(String key, MilliData value) {
         put(key, value);
     }
 
-    public MilliMap(@Nonnull String key1, @Nonnull MilliData value1, @Nonnull String key2, @Nonnull MilliData value2) {
+    public MilliMap(String key1, MilliData value1, String key2, MilliData value2) {
         put(key1, value1);
         put(key2, value2);
     }
 
-    public MilliMap(@Nonnull String key1, @Nonnull MilliData value1, @Nonnull String key2, @Nonnull MilliData value2, @Nonnull String key3, @Nonnull MilliData value3) {
+    public MilliMap(String key1, MilliData value1, String key2, MilliData value2, String key3, MilliData value3) {
         put(key1, value1);
         put(key2, value2);
         put(key3, value3);
@@ -37,21 +28,28 @@ public final class MilliMap extends MilliData {
         if (map != null) this.map.putAll(Converter.convert(map).asMilliMap().asMap());
     }
 
-    @Nonnull
-    public MilliMap append(@Nonnull String key, @Nonnull MilliData value) {
+    public MilliMap append(String key, MilliData value) {
         put(key, value);
         return this;
     }
 
     @Override
-    public boolean equals(Object obj) {
-        return this == obj || obj instanceof MilliMap && map.equals(((MilliMap) obj).map);
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        MilliMap milliMap = (MilliMap) o;
+        return Objects.equals(map, milliMap.map);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(map);
     }
 
     /**
      * @param level negative value for infinite deep
      */
-    public boolean superOf(@Nonnull MilliMap subMilliMap, int level) {
+    public boolean superOf(MilliMap subMilliMap, int level) {
         for (Entry subEntry : subMilliMap.entries()) {
             boolean found = false;
             if (level == 0) {
@@ -72,16 +70,16 @@ public final class MilliMap extends MilliData {
         return true;
     }
 
-    public boolean superOf(@Nonnull MilliMap subMilliMap) {
+    public boolean superOf(MilliMap subMilliMap) {
         return superOf(subMilliMap, 0);
     }
 
-    public boolean contains(@Nonnull String key) {
-        return map.containsKey(Validate.nonnull(key));
+    public boolean contains(String key) {
+        return map.containsKey(key);
     }
 
-    public boolean contains(@Nonnull MilliData value) {
-        return map.containsValue(Validate.nonnull(value));
+    public boolean contains(MilliData value) {
+        return map.containsValue(value);
     }
 
     public boolean isEmpty() {
@@ -92,18 +90,16 @@ public final class MilliMap extends MilliData {
         map.clear();
     }
 
-    public void put(@Nonnull String key, @Nonnull MilliData value) {
-        map.put(Validate.nonnull(key), Validate.nonnull(value));
+    public void put(String key, MilliData value) {
+        map.put(Objects.requireNonNull(key), Objects.requireNonNull(value));
     }
 
-    public void remove(@Nonnull String key) {
-        map.remove(Validate.nonnull(key));
+    public void remove(String key) {
+        map.remove(key);
     }
 
-    @Nonnull
-    public MilliData get(@Nonnull String key) {
-        MilliData data = map.get(Validate.nonnull(key));
-        return Ensure.ifNull(data, MilliNull.INSTANCE);
+    public MilliData get(String key) {
+        return Objects.requireNonNullElse(map.get(key), MilliNull.INSTANCE);
     }
 
     public int size() {
@@ -113,7 +109,6 @@ public final class MilliMap extends MilliData {
     /**
      * @return a view only entry list
      */
-    @Nonnull
     public List<Entry> entries() {
         Entry[] entries = new Entry[map.size()];
         String[] keys = map.keySet().toArray(new String[0]);
@@ -124,7 +119,6 @@ public final class MilliMap extends MilliData {
     /**
      * @return a view only key list
      */
-    @Nonnull
     public List<String> keys() {
         return Arrays.asList(map.keySet().toArray(new String[0]));
     }
@@ -132,50 +126,52 @@ public final class MilliMap extends MilliData {
     /**
      * @return a view only value list
      */
-    @Nonnull
     public List<MilliData> values() {
         return Arrays.asList(map.values().toArray(new MilliData[0]));
     }
 
     @Override
-    @Nonnull
-    protected String toString(@Nonnegative int indent, @Nonnegative int previous) {
+    protected String toString(int indent, int previous) {
         Set<String> s = new TreeSet<>();
-        String ss = indent > 0 ? " " : ""; //Space after :
+        String ss = indent > 0 ? " " : ""; //Space after colon
         String tt = indent > 0 ? " ".repeat(indent + previous) : ""; //Space of the body
-        String t = indent > 0 ? " ".repeat(previous) : ""; //Space before closing }
+        String t = indent > 0 ? " ".repeat(previous) : ""; //Space before closing curly bracket
         String nn = indent > 0 ? "\n" : ""; //New line or not
         for (Entry entry : entries())
             s.add(new MilliValue(entry.getKey()) + ":" + ss + entry.getValue().toString(indent, previous + indent));
         return "{" + nn + tt + String.join("," + nn + tt, s) + nn + t + "}";
     }
 
-    @Nonnull
     public Map<String, MilliData> asMap() {
         return map;
     }
 
     public static final class Entry {
-        @Nonnull
         private final String key;
-        @Nonnull
         private final MilliData value;
 
-        private Entry(@Nonnull String key, @Nonnull MilliData value) {
+        private Entry(String key, MilliData value) {
             this.key = key;
             this.value = value;
         }
 
-        public boolean equals(Object object) {
-            return this == object || object instanceof Entry && key.equals(((Entry) object).key) && value.equals(((Entry) object).value);
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            Entry entry = (Entry) o;
+            return Objects.equals(key, entry.key) && Objects.equals(value, entry.value);
         }
 
-        @Nonnull
+        @Override
+        public int hashCode() {
+            return Objects.hash(key, value);
+        }
+
         public String getKey() {
             return key;
         }
 
-        @Nonnull
         public MilliData getValue() {
             return value;
         }

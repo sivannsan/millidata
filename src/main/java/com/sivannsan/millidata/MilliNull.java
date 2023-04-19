@@ -1,13 +1,6 @@
 package com.sivannsan.millidata;
 
-import com.sivannsan.foundation.annotation.Nonnegative;
-import com.sivannsan.foundation.annotation.Nonnull;
-
-/**
- * MilliNull
- */
 public final class MilliNull extends MilliData {
-    @Nonnull
     public static final MilliNull INSTANCE = new MilliNull();
 
     private MilliNull() {
@@ -19,8 +12,7 @@ public final class MilliNull extends MilliData {
     }
 
     @Override
-    @Nonnull
-    protected String toString(@Nonnegative int indent, @Nonnegative int previous) {
+    protected String toString(int indent, int previous) {
         return "null";
     }
 }
