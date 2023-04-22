@@ -120,7 +120,8 @@ public final class MilliList extends MilliData implements Iterable<MilliData> {
 
     public MilliData get(int index) {
         if (index < 0 || index >= list.size()) return MilliNull.INSTANCE;
-        return Objects.requireNonNullElse(list.get(index), MilliNull.INSTANCE);
+        MilliData data = list.get(index);
+        return data == null ? MilliNull.INSTANCE : data;
     }
 
     public int size() {
@@ -131,8 +132,8 @@ public final class MilliList extends MilliData implements Iterable<MilliData> {
     protected String toString(int indent, int previous) {
         List<String> l = new ArrayList<>();
         for (MilliData element : list) l.add(element.toString(indent, previous + indent));
-        String tt = indent > 0 ? " ".repeat(indent + previous) : "";
-        String t = indent > 0 ? " ".repeat(previous) : "";
+        String tt = indent > 0 ? repeat(" ", indent + previous) : "";
+        String t = indent > 0 ? repeat(" ", previous) : "";
         String nn = indent > 0 ? "\n" : "";
         return "[" + nn + tt + String.join("," + nn + tt, l) + nn + t + "]";
     }

@@ -99,7 +99,8 @@ public final class MilliMap extends MilliData {
     }
 
     public MilliData get(String key) {
-        return Objects.requireNonNullElse(map.get(key), MilliNull.INSTANCE);
+        MilliData data = map.get(key);
+        return data == null ? MilliNull.INSTANCE : data;
     }
 
     public int size() {
@@ -134,8 +135,8 @@ public final class MilliMap extends MilliData {
     protected String toString(int indent, int previous) {
         Set<String> s = new TreeSet<>();
         String ss = indent > 0 ? " " : ""; //Space after colon
-        String tt = indent > 0 ? " ".repeat(indent + previous) : ""; //Space of the body
-        String t = indent > 0 ? " ".repeat(previous) : ""; //Space before closing curly bracket
+        String tt = indent > 0 ? repeat(" ", indent + previous) : ""; //Space of the body
+        String t = indent > 0 ? repeat(" ", previous) : ""; //Space before closing curly bracket
         String nn = indent > 0 ? "\n" : ""; //New line or not
         for (Entry entry : entries())
             s.add(new MilliValue(entry.getKey()) + ":" + ss + entry.getValue().toString(indent, previous + indent));

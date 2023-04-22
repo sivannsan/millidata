@@ -10,7 +10,7 @@ import java.util.Objects;
  * @see com.sivannsan.millidata.MilliList
  * @see com.sivannsan.millidata.MilliMap
  */
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused", "SameParameterValue"})
 public abstract class MilliData {
     public static class Parser {
         private Parser() {
@@ -250,5 +250,14 @@ public abstract class MilliData {
      */
     public final MilliMap asMilliMap(MilliMap defaultValue) {
         return isMilliMap() ? asMilliMap() : Objects.requireNonNull(defaultValue);
+    }
+
+    protected String repeat(String s, int n) {
+        Objects.requireNonNull(s);
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            builder.append(s);
+        }
+        return builder.toString();
     }
 }
