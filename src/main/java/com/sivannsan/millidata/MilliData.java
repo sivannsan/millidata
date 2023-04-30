@@ -17,6 +17,9 @@ public abstract class MilliData {
         }
 
         public static MilliData parse(String millidata, MilliData defaultValue) {
+            if (millidata == null) {
+                return Objects.requireNonNull(defaultValue);
+            }
             try {
                 return parse(millidata);
             } catch (MilliDataParseException e) {
@@ -24,7 +27,7 @@ public abstract class MilliData {
             }
         }
 
-        public static MilliData parse(String millidata) throws MilliDataParseException {
+        public static MilliData parse(String millidata) throws NullPointerException, MilliDataParseException {
             millidata = millidata.trim();
             if (millidata.equals("null")) return MilliNull.INSTANCE;
             char[] array = millidata.toCharArray();
