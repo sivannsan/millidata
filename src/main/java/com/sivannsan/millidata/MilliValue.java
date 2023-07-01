@@ -1,112 +1,93 @@
 package com.sivannsan.millidata;
 
-@SuppressWarnings({"unused", "UnusedReturnValue"})
-public final class MilliValue extends MilliData implements Comparable<MilliValue> {
-    private final String value;
+public final class MilliValue extends AbstractMilliValue {
+    public static final MilliValue EMPTY = new MilliValue();
 
     public MilliValue() {
-        this("");
+        super();
     }
 
-    /**
-     * String.valueOf(o)
-     */
     public MilliValue(Object o) {
-        value = String.valueOf(o);
+        super(o);
     }
 
     @Override
-    public boolean equals(Object obj) {
-        return this == obj || obj instanceof MilliValue && value.equals(((MilliValue) obj).value);
-    }
-
-    @Override
-    protected String toString(int indent, int previous) {
-        return "\"" + value.replace("\\", "\\\\").replace("\"", "\\\"").replace("\t", "\\t").replace("\n", "\\n") + "\"";
-    }
-
     public boolean superOf(MilliValue subMilliValue) {
-        return value.contains(subMilliValue.value);
-    }
-
-    public String asString() {
-        return value;
-    }
-
-    public boolean isInteger() {
-        boolean result = true;
-        try {
-            asInteger();
-        } catch (NumberFormatException e) {
-            result = false;
-        }
-        return result;
-    }
-
-    public boolean isLong() {
-        boolean result = true;
-        try {
-            asLong();
-        } catch (NumberFormatException e) {
-            result = false;
-        }
-        return result;
-    }
-
-    public boolean isFloat() {
-        boolean result = true;
-        try {
-            asFloat();
-        } catch (NumberFormatException e) {
-            result = false;
-        }
-        return result;
-    }
-
-    public boolean isDouble() {
-        boolean result = true;
-        try {
-            asDouble();
-        } catch (NumberFormatException e) {
-            result = false;
-        }
-        return result;
-    }
-
-    public boolean isBoolean() {
-        boolean result = true;
-        try {
-            asBoolean();
-        } catch (IllegalStateException e) {
-            result = false;
-        }
-        return result;
-    }
-
-    public int asInteger() throws NumberFormatException {
-        return Integer.parseInt(value);
-    }
-
-    public long asLong() throws NumberFormatException {
-        return Long.parseLong(value);
-    }
-
-    public float asFloat() throws NumberFormatException {
-        return Float.parseFloat(value);
-    }
-
-    public double asDouble() throws NumberFormatException {
-        return Double.parseDouble(value);
-    }
-
-    public boolean asBoolean() throws IllegalStateException {
-        if (value.equals("true")) return true;
-        if (value.equals("false")) return false;
-        throw new IllegalStateException("Not a Boolean");
+        return super.superOf(subMilliValue);
     }
 
     @Override
-    public int compareTo(MilliValue o) {
-        return value.compareTo(o.value);
+    public String asString() {
+        return super.asString();
+    }
+
+    @Override
+    public boolean isInt() {
+        return super.isInt();
+    }
+
+    @Override
+    public boolean isLong() {
+        return super.isLong();
+    }
+
+    @Override
+    public boolean isFloat() {
+        return super.isFloat();
+    }
+
+    @Override
+    public boolean isDouble() {
+        return super.isDouble();
+    }
+
+    @Override
+    public boolean isBoolean() {
+        return super.isBoolean();
+    }
+
+    @Override
+    public int asInt() {
+        return super.asInt();
+    }
+
+    @Override
+    public int asInt(int defaultValue) {
+        return super.asInt(defaultValue);
+    }
+
+    @Override
+    public long asLong() {
+        return super.asLong();
+    }
+
+    @Override
+    public long asLong(long defaultValue) {
+        return super.asLong(defaultValue);
+    }
+
+    @Override
+    public float asFloat() {
+        return super.asFloat();
+    }
+
+    @Override
+    public float asFloat(float defaultValue) {
+        return super.asFloat(defaultValue);
+    }
+
+    @Override
+    public double asDouble() {
+        return super.asDouble();
+    }
+
+    @Override
+    public double asDouble(double defaultValue) {
+        return super.asDouble(defaultValue);
+    }
+
+    @Override
+    public boolean asBoolean() {
+        return super.asBoolean();
     }
 }
