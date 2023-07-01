@@ -90,4 +90,9 @@ public final class MilliValue extends AbstractMilliValue {
     public boolean asBoolean() {
         return super.asBoolean();
     }
+
+    @Override
+    public boolean asBoolean(boolean defaultValue) {
+        return super.asBoolean(defaultValue);
+    }
 }

@@ -150,6 +150,10 @@ public abstract class AbstractMilliValue extends MilliData implements Comparable
         return Boolean.parseBoolean(value);
     }
 
+    protected boolean asBoolean(boolean defaultValue) {
+        return isBoolean() ? Boolean.parseBoolean(value) : defaultValue;
+    }
+
     @Override
     public final int compareTo(MilliValue o) {
         return value.compareTo(o.asString());
