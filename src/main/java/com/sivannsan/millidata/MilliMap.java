@@ -113,12 +113,12 @@ public final class MilliMap extends AbstractMilliMap {
         }
 
         @Override
-        protected String getKey() {
+        public String getKey() {
             return super.getKey();
         }
 
         @Override
-        protected MilliData getValue() {
+        public MilliData getValue() {
             return super.getValue();
         }
     }
