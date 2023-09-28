@@ -1,5 +1,7 @@
 package com.sivannsan.millidata;
 
+import com.sivannsan.foundation.annotation.Nonnull;
+
 /**
  * @see com.sivannsan.millidata.MilliNull
  * @see com.sivannsan.millidata.MilliValue
@@ -10,16 +12,19 @@ public abstract class MilliData extends AbstractMilliData {
     @Override
     public abstract boolean equals(Object o);
 
+    @Nonnull
     @Override
     public final String toString() {
         return super.toString();
     }
 
+    @Nonnull
     @Override
     public final String toString(int indent) {
         return super.toString(indent);
     }
 
+    @Nonnull
     @Override
     protected abstract String toString(int indent, int previous);
 
@@ -27,12 +32,12 @@ public abstract class MilliData extends AbstractMilliData {
      * @param level negative value for infinite deep
      */
     @Override
-    public final boolean superOf(MilliData subMilliData, int level) {
+    public final boolean superOf(@Nonnull MilliData subMilliData, int level) {
         return super.superOf(subMilliData, level);
     }
 
     @Override
-    public final boolean superOf(MilliData subMilliData) {
+    public final boolean superOf(@Nonnull MilliData subMilliData) {
         return super.superOf(subMilliData);
     }
 
@@ -56,33 +61,39 @@ public abstract class MilliData extends AbstractMilliData {
         return super.isMilliMap();
     }
 
+    @Nonnull
     @Override
     public final MilliValue asMilliValue() {
         return super.asMilliValue();
     }
 
+    @Nonnull
     @Override
-    public final MilliValue asMilliValue(MilliValue defaultValue) {
+    public final MilliValue asMilliValue(@Nonnull MilliValue defaultValue) {
         return super.asMilliValue(defaultValue);
     }
 
+    @Nonnull
     @Override
     public final MilliList asMilliList() {
         return super.asMilliList();
     }
 
+    @Nonnull
     @Override
-    public final MilliList asMilliList(MilliList defaultValue) {
+    public final MilliList asMilliList(@Nonnull MilliList defaultValue) {
         return super.asMilliList(defaultValue);
     }
 
+    @Nonnull
     @Override
     public final MilliMap asMilliMap() {
         return super.asMilliMap();
     }
 
+    @Nonnull
     @Override
-    public final MilliMap asMilliMap(MilliMap defaultValue) {
+    public final MilliMap asMilliMap(@Nonnull MilliMap defaultValue) {
         return super.asMilliMap(defaultValue);
     }
 }

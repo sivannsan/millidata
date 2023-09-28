@@ -1,9 +1,12 @@
 package com.sivannsan.millidata;
 
+import com.sivannsan.foundation.annotation.Nonnull;
+
 import java.util.Collection;
 import java.util.Map;
 
 public abstract class AbstractMilliDataConverter {
+    @Nonnull
     protected static MilliData convert(Object millidata) {
         if (millidata == null) {
             return MilliNull.INSTANCE;

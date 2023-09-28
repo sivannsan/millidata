@@ -1,8 +1,13 @@
 package com.sivannsan.millidata;
 
+import com.sivannsan.foundation.annotation.Nonnegative;
+import com.sivannsan.foundation.annotation.Nonnull;
+import com.sivannsan.foundation.common.Validate;
+
 import java.util.*;
 
 public abstract class AbstractMilliList extends MilliData implements Iterable<MilliData> {
+    @Nonnull
     private final List<MilliData> list = new ArrayList<>();
 
     protected AbstractMilliList() {
@@ -43,7 +48,7 @@ public abstract class AbstractMilliList extends MilliData implements Iterable<Mi
         return Objects.hash(list);
     }
 
-    protected boolean superOf(MilliList subMilliList, int level) {
+    protected boolean superOf(@Nonnull MilliList subMilliList, int level) {
         for (MilliData subData : subMilliList) {
             if (level == 0) {
                 if (!list.contains(subData)) return false;
@@ -67,11 +72,11 @@ public abstract class AbstractMilliList extends MilliData implements Iterable<Mi
         return true;
     }
 
-    protected boolean superOf(MilliList subMilliList) {
+    protected boolean superOf(@Nonnull MilliList subMilliList) {
         return superOf(subMilliList, 0);
     }
 
-    protected boolean contains(MilliData element) {
+    protected boolean contains(@Nonnull MilliData element) {
         return list.contains(element);
     }
 
@@ -83,13 +88,13 @@ public abstract class AbstractMilliList extends MilliData implements Iterable<Mi
         list.clear();
     }
 
-    protected void add(MilliData element) {
-        list.add(Objects.requireNonNull(element));
+    protected void add(@Nonnull MilliData element) {
+        list.add(Validate.nonnull(element));
     }
 
-    protected void update(int index, MilliData element) {
+    protected void update(int index, @Nonnull MilliData element) {
         if (index < 0 || index >= list.size()) return;
-        list.set(index, Objects.requireNonNull(element));
+        list.set(index, Validate.nonnull(element));
     }
 
     protected void remove(int index) {
@@ -97,16 +102,19 @@ public abstract class AbstractMilliList extends MilliData implements Iterable<Mi
         list.remove(index);
     }
 
+    @Nonnull
     protected MilliData get(int index) {
         if (index < 0 || index >= list.size()) return MilliNull.INSTANCE;
         MilliData data = list.get(index);
         return data == null ? MilliNull.INSTANCE : data;
     }
 
+    @Nonnegative
     protected int size() {
         return list.size();
     }
 
+    @Nonnull
     @Override
     protected final String toString(int indent, int previous) {
         List<String> l = new ArrayList<>();
@@ -117,6 +125,7 @@ public abstract class AbstractMilliList extends MilliData implements Iterable<Mi
         return "[" + nn + tt + String.join("," + nn + tt, l) + nn + t + "]";
     }
 
+    @Nonnull
     protected List<MilliData> asList() {
         return list;
     }

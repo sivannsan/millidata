@@ -1,30 +1,37 @@
 package com.sivannsan.millidata;
 
+import com.sivannsan.foundation.annotation.Nonnegative;
+import com.sivannsan.foundation.annotation.Nonnull;
+import com.sivannsan.foundation.common.Validate;
+
 import java.util.*;
 
 public abstract class AbstractMilliMap extends MilliData {
+    @Nonnull
     private final Map<String, MilliData> map = new LinkedHashMap<>();
 
     protected AbstractMilliMap() {
     }
 
-    protected AbstractMilliMap(String key, MilliData value) {
+    protected AbstractMilliMap(@Nonnull String key, @Nonnull MilliData value) {
         put(key, value);
     }
 
-    protected AbstractMilliMap(String key1, MilliData value1, String key2, MilliData value2) {
-        put(key1, value1);
-        put(key2, value2);
+    protected AbstractMilliMap(@Nonnull String k1, @Nonnull MilliData v1, @Nonnull String k2, @Nonnull MilliData v2) {
+        put(k1, v1);
+        put(k2, v2);
     }
 
-    protected AbstractMilliMap(String key1, MilliData value1, String key2, MilliData value2, String key3, MilliData value3) {
-        put(key1, value1);
-        put(key2, value2);
-        put(key3, value3);
+    protected AbstractMilliMap(@Nonnull String k1, @Nonnull MilliData v1, @Nonnull String k2, @Nonnull MilliData v2, @Nonnull String k3, @Nonnull MilliData v3) {
+        put(k1, v1);
+        put(k2, v2);
+        put(k3, v3);
     }
 
     protected AbstractMilliMap(Map<?, ?> map) {
-        if (map != null) this.map.putAll(MilliDataConverter.convert(map).asMilliMap().asMap());
+        if (map != null) {
+            this.map.putAll(MilliDataConverter.convert(map).asMilliMap().asMap());
+        }
     }
 
     @Override
@@ -40,7 +47,7 @@ public abstract class AbstractMilliMap extends MilliData {
         return Objects.hash(map);
     }
 
-    protected boolean superOf(MilliMap subMilliMap, int level) {
+    protected boolean superOf(@Nonnull MilliMap subMilliMap, int level) {
         for (MilliMap.Entry subEntry : subMilliMap.entries()) {
             boolean found = false;
             if (level == 0) {
@@ -61,15 +68,15 @@ public abstract class AbstractMilliMap extends MilliData {
         return true;
     }
 
-    protected boolean superOf(MilliMap subMilliMap) {
+    protected boolean superOf(@Nonnull MilliMap subMilliMap) {
         return superOf(subMilliMap, 0);
     }
 
-    protected boolean contains(String key) {
+    protected boolean contains(@Nonnull String key) {
         return map.containsKey(key);
     }
 
-    protected boolean contains(MilliData value) {
+    protected boolean contains(@Nonnull MilliData value) {
         return map.containsValue(value);
     }
 
@@ -81,23 +88,26 @@ public abstract class AbstractMilliMap extends MilliData {
         map.clear();
     }
 
-    protected void put(String key, MilliData value) {
-        map.put(Objects.requireNonNull(key), Objects.requireNonNull(value));
+    protected void put(@Nonnull String key, @Nonnull MilliData value) {
+        map.put(Validate.nonnull(key), Validate.nonnull(value));
     }
 
-    protected void remove(String key) {
+    protected void remove(@Nonnull String key) {
         map.remove(key);
     }
 
-    protected MilliData get(String key) {
+    @Nonnull
+    protected MilliData get(@Nonnull String key) {
         MilliData data = map.get(key);
         return data == null ? MilliNull.INSTANCE : data;
     }
 
+    @Nonnegative
     protected int size() {
         return map.size();
     }
 
+    @Nonnull
     protected List<MilliMap.Entry> entries() {
         MilliMap.Entry[] entries = new MilliMap.Entry[map.size()];
         String[] keys = map.keySet().toArray(new String[0]);
@@ -105,10 +115,12 @@ public abstract class AbstractMilliMap extends MilliData {
         return Arrays.asList(entries);
     }
 
+    @Nonnull
     protected List<String> keys() {
         return Arrays.asList(map.keySet().toArray(new String[0]));
     }
 
+    @Nonnull
     protected List<MilliData> values() {
         return Arrays.asList(map.values().toArray(new MilliData[0]));
     }
@@ -125,15 +137,18 @@ public abstract class AbstractMilliMap extends MilliData {
         return "{" + nn + tt + String.join("," + nn + tt, s) + nn + t + "}";
     }
 
+    @Nonnull
     protected Map<String, MilliData> asMap() {
         return map;
     }
 
     protected static abstract class AbstractEntry {
+        @Nonnull
         private final String key;
+        @Nonnull
         private final MilliData value;
 
-        protected AbstractEntry(String key, MilliData value) {
+        protected AbstractEntry(@Nonnull String key, @Nonnull MilliData value) {
             this.key = key;
             this.value = value;
         }
@@ -151,10 +166,12 @@ public abstract class AbstractMilliMap extends MilliData {
             return Objects.hash(key, value);
         }
 
+        @Nonnull
         protected String getKey() {
             return key;
         }
 
+        @Nonnull
         protected MilliData getValue() {
             return value;
         }

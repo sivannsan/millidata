@@ -1,8 +1,11 @@
 package com.sivannsan.millidata;
 
+import com.sivannsan.foundation.annotation.Nonnull;
+
 import java.util.Objects;
 
 public abstract class AbstractMilliValue extends MilliData implements Comparable<MilliValue> {
+    @Nonnull
     private final String value;
 
     protected AbstractMilliValue() {
@@ -34,10 +37,11 @@ public abstract class AbstractMilliValue extends MilliData implements Comparable
         return "\"" + value.replace("\\", "\\\\").replace("\"", "\\\"").replace("\t", "\\t").replace("\n", "\\n") + "\"";
     }
 
-    protected boolean superOf(MilliValue subMilliValue) {
+    protected boolean superOf(@Nonnull MilliValue subMilliValue) {
         return value.contains(subMilliValue.asString());
     }
 
+    @Nonnull
     protected String asString() {
         return value;
     }
@@ -155,7 +159,7 @@ public abstract class AbstractMilliValue extends MilliData implements Comparable
     }
 
     @Override
-    public final int compareTo(MilliValue o) {
+    public final int compareTo(@Nonnull MilliValue o) {
         return value.compareTo(o.asString());
     }
 }

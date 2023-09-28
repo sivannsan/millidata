@@ -1,6 +1,9 @@
 package com.sivannsan.millidata;
 
+import com.sivannsan.foundation.annotation.Nonnull;
+
 public final class MilliValue extends AbstractMilliValue {
+    @Nonnull
     public static final MilliValue EMPTY = new MilliValue();
 
     public MilliValue() {
@@ -12,10 +15,11 @@ public final class MilliValue extends AbstractMilliValue {
     }
 
     @Override
-    public boolean superOf(MilliValue subMilliValue) {
+    public boolean superOf(@Nonnull MilliValue subMilliValue) {
         return super.superOf(subMilliValue);
     }
 
+    @Nonnull
     @Override
     public String asString() {
         return super.asString();

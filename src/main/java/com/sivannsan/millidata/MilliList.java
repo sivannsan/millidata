@@ -1,5 +1,8 @@
 package com.sivannsan.millidata;
 
+import com.sivannsan.foundation.annotation.Nonnegative;
+import com.sivannsan.foundation.annotation.Nonnull;
+
 import java.util.*;
 
 public final class MilliList extends AbstractMilliList {
@@ -19,7 +22,8 @@ public final class MilliList extends AbstractMilliList {
         super(collection);
     }
 
-    public MilliList append(MilliData element) {
+    @Nonnull
+    public MilliList append(@Nonnull MilliData element) {
         add(element);
         return this;
     }
@@ -28,17 +32,17 @@ public final class MilliList extends AbstractMilliList {
      * @param level negative value for infinite deep
      */
     @Override
-    public boolean superOf(MilliList subMilliList, int level) {
+    public boolean superOf(@Nonnull MilliList subMilliList, int level) {
         return super.superOf(subMilliList, level);
     }
 
     @Override
-    public boolean superOf(MilliList subMilliList) {
+    public boolean superOf(@Nonnull MilliList subMilliList) {
         return super.superOf(subMilliList);
     }
 
     @Override
-    public boolean contains(MilliData element) {
+    public boolean contains(@Nonnull MilliData element) {
         return super.contains(element);
     }
 
@@ -53,12 +57,12 @@ public final class MilliList extends AbstractMilliList {
     }
 
     @Override
-    public void add(MilliData element) {
+    public void add(@Nonnull MilliData element) {
         super.add(element);
     }
 
     @Override
-    public void update(int index, MilliData element) {
+    public void update(int index, @Nonnull MilliData element) {
         super.update(index, element);
     }
 
@@ -72,11 +76,13 @@ public final class MilliList extends AbstractMilliList {
         return super.get(index);
     }
 
+    @Nonnegative
     @Override
     public int size() {
         return super.size();
     }
 
+    @Nonnull
     @Override
     public List<MilliData> asList() {
         return super.asList();

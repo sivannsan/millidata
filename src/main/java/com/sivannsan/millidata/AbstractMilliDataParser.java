@@ -1,6 +1,9 @@
 package com.sivannsan.millidata;
 
+import com.sivannsan.foundation.annotation.Nonnull;
+
 public abstract class AbstractMilliDataParser {
+    @Nonnull
     protected static MilliData parse(String millidata) {
         try {
             return checkedParse(millidata);
@@ -9,6 +12,7 @@ public abstract class AbstractMilliDataParser {
         }
     }
 
+    @Nonnull
     protected static MilliData checkedParse(String millidata) throws NullPointerException, MilliDataException {
         millidata = millidata.trim();
         if (millidata.equals("null")) return MilliNull.INSTANCE;
@@ -36,7 +40,7 @@ public abstract class AbstractMilliDataParser {
                 }
                 e.append(c);
             }
-            if (e.length() > 0 || list.size() > 0) {
+            if (e.length() > 0 || !list.isEmpty()) {
                 String f = e.toString();
                 list.add(checkedParse(f));
             }
@@ -57,7 +61,7 @@ public abstract class AbstractMilliDataParser {
                 }
                 e.append(c);
             }
-            if (e.length() > 0 || map.size() > 0) {
+            if (e.length() > 0 || !map.isEmpty()) {
                 String f = e.toString();
                 Entry entry = entry(f);
                 if (entry == null) throw new MilliDataException();
