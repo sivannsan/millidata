@@ -1,6 +1,7 @@
 package com.sivannsan.millidata;
 
 import com.sivannsan.foundation.annotation.Nonnull;
+import com.sivannsan.foundation.common.Validate;
 
 /**
  * @see com.sivannsan.millidata.MilliNull
@@ -8,92 +9,82 @@ import com.sivannsan.foundation.annotation.Nonnull;
  * @see com.sivannsan.millidata.MilliList
  * @see com.sivannsan.millidata.MilliMap
  */
-public abstract class MilliData extends AbstractMilliData {
+public abstract class MilliData {
     @Override
     public abstract boolean equals(Object o);
 
     @Nonnull
     @Override
     public final String toString() {
-        return super.toString();
+        return toString(0);
     }
 
     @Nonnull
-    @Override
     public final String toString(int indent) {
-        return super.toString(indent);
+        return toString(indent, 0);
     }
 
     @Nonnull
-    @Override
     protected abstract String toString(int indent, int previous);
 
     /**
      * @param level negative value for infinite deep
      */
-    @Override
     public final boolean superOf(@Nonnull MilliData subMilliData, int level) {
-        return super.superOf(subMilliData, level);
+        if (isMilliNull() && subMilliData.isMilliNull()) return true;
+        else if (isMilliValue() && subMilliData.isMilliValue()) return asMilliValue().superOf(subMilliData.asMilliValue());
+        else if (isMilliList() && subMilliData.isMilliList()) return asMilliList().superOf(subMilliData.asMilliList(), level);
+        else if (isMilliMap() && subMilliData.isMilliMap()) return asMilliMap().superOf(subMilliData.asMilliMap(), level);
+        else return false;
     }
 
-    @Override
     public final boolean superOf(@Nonnull MilliData subMilliData) {
-        return super.superOf(subMilliData);
+        return superOf(subMilliData, 0);
     }
 
-    @Override
     public final boolean isMilliNull() {
-        return super.isMilliNull();
+        return this instanceof MilliNull;
     }
 
-    @Override
     public final boolean isMilliValue() {
-        return super.isMilliValue();
+        return this instanceof MilliValue;
     }
 
-    @Override
     public final boolean isMilliList() {
-        return super.isMilliList();
+        return this instanceof MilliList;
     }
 
-    @Override
     public final boolean isMilliMap() {
-        return super.isMilliMap();
+        return this instanceof MilliMap;
     }
 
     @Nonnull
-    @Override
     public final MilliValue asMilliValue() {
-        return super.asMilliValue();
+        return isMilliValue() ? (MilliValue) this : MilliValue.EMPTY;
     }
 
     @Nonnull
-    @Override
     public final MilliValue asMilliValue(@Nonnull MilliValue defaultValue) {
-        return super.asMilliValue(defaultValue);
+        return isMilliValue() ? (MilliValue) this : Validate.nonnull(defaultValue);
     }
 
     @Nonnull
-    @Override
     public final MilliList asMilliList() {
-        return super.asMilliList();
+        return isMilliList() ? (MilliList) this : new MilliList();
     }
 
     @Nonnull
-    @Override
     public final MilliList asMilliList(@Nonnull MilliList defaultValue) {
-        return super.asMilliList(defaultValue);
+        return isMilliList() ? (MilliList) this : Validate.nonnull(defaultValue);
     }
 
     @Nonnull
-    @Override
     public final MilliMap asMilliMap() {
-        return super.asMilliMap();
+        return isMilliMap() ? (MilliMap) this : new MilliMap();
     }
 
     @Nonnull
-    @Override
     public final MilliMap asMilliMap(@Nonnull MilliMap defaultValue) {
-        return super.asMilliMap(defaultValue);
+        return isMilliMap() ? (MilliMap) this : Validate.nonnull(defaultValue);
     }
 }
