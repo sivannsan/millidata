@@ -1,12 +1,12 @@
 package com.sivannsan.millidata;
 
-import com.sivannsan.foundation.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
 
 public final class MilliDataParser {
     private MilliDataParser() {
     }
 
-    @Nonnull
+    @NotNull
     public static MilliData parse(String millidata) {
         try {
             return checkedParse(millidata);
@@ -15,7 +15,7 @@ public final class MilliDataParser {
         }
     }
 
-    @Nonnull
+    @NotNull
     public static MilliData checkedParse(String millidata) throws NullPointerException, MilliDataException {
         millidata = millidata.trim();
         if (millidata.equals("null")) return MilliNull.INSTANCE;

@@ -1,6 +1,6 @@
 package com.sivannsan.millidata;
 
-import com.sivannsan.foundation.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
 import java.util.Map;
@@ -12,7 +12,7 @@ public final class MilliDataConverter {
     /**
      * Converts a normal Java object to a MilliData
      */
-    @Nonnull
+    @NotNull
     public static MilliData convert(Object millidata) {
         if (millidata == null) {
             return MilliNull.INSTANCE;

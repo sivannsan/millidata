@@ -1,13 +1,13 @@
 package com.sivannsan.millidata;
 
-import com.sivannsan.foundation.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
 public class MilliValue extends MilliData implements Comparable<MilliValue> {
-    @Nonnull
+    @NotNull
     public static final MilliValue EMPTY = new MilliValue();
-    @Nonnull
+    @NotNull
     private final String value;
 
     public MilliValue() {
@@ -39,11 +39,11 @@ public class MilliValue extends MilliData implements Comparable<MilliValue> {
         return "\"" + value.replace("\\", "\\\\").replace("\"", "\\\"").replace("\t", "\\t").replace("\n", "\\n") + "\"";
     }
 
-    public boolean superOf(@Nonnull MilliValue subMilliValue) {
+    public boolean superOf(@NotNull MilliValue subMilliValue) {
         return value.contains(subMilliValue.asString());
     }
 
-    @Nonnull
+    @NotNull
     public String asString() {
         return value;
     }
@@ -161,7 +161,7 @@ public class MilliValue extends MilliData implements Comparable<MilliValue> {
     }
 
     @Override
-    public int compareTo(@Nonnull MilliValue o) {
+    public int compareTo(@NotNull MilliValue o) {
         return value.compareTo(o.asString());
     }
 }

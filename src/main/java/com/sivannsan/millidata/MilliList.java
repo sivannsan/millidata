@@ -1,13 +1,11 @@
 package com.sivannsan.millidata;
 
-import com.sivannsan.foundation.annotation.Nonnegative;
-import com.sivannsan.foundation.annotation.Nonnull;
-import com.sivannsan.foundation.common.Validate;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
 public class MilliList extends MilliData implements Iterable<MilliData> {
-    @Nonnull
+    @NotNull
     private final List<MilliData> list = new ArrayList<>();
 
     public MilliList() {
@@ -48,13 +46,13 @@ public class MilliList extends MilliData implements Iterable<MilliData> {
         return Objects.hash(list);
     }
 
-    @Nonnull
-    public MilliList append(@Nonnull MilliData element) {
+    @NotNull
+    public MilliList append(@NotNull MilliData element) {
         add(element);
         return this;
     }
 
-    public boolean superOf(@Nonnull MilliList subMilliList, int level) {
+    public boolean superOf(@NotNull MilliList subMilliList, int level) {
         for (MilliData subData : subMilliList) {
             if (level == 0) {
                 if (!list.contains(subData)) return false;
@@ -78,11 +76,11 @@ public class MilliList extends MilliData implements Iterable<MilliData> {
         return true;
     }
 
-    public boolean superOf(@Nonnull MilliList subMilliList) {
+    public boolean superOf(@NotNull MilliList subMilliList) {
         return superOf(subMilliList, 0);
     }
 
-    public boolean contains(@Nonnull MilliData element) {
+    public boolean contains(@NotNull MilliData element) {
         return list.contains(element);
     }
 
@@ -94,13 +92,13 @@ public class MilliList extends MilliData implements Iterable<MilliData> {
         list.clear();
     }
 
-    public void add(@Nonnull MilliData element) {
-        list.add(Validate.nonnull(element));
+    public void add(@NotNull MilliData element) {
+        list.add(element);
     }
 
-    public void update(int index, @Nonnull MilliData element) {
+    public void update(int index, @NotNull MilliData element) {
         if (index < 0 || index >= list.size()) return;
-        list.set(index, Validate.nonnull(element));
+        list.set(index, element);
     }
 
     public void remove(int index) {
@@ -108,30 +106,29 @@ public class MilliList extends MilliData implements Iterable<MilliData> {
         list.remove(index);
     }
 
-    @Nonnull
+    @NotNull
     public MilliData get(int index) {
         if (index < 0 || index >= list.size()) return MilliNull.INSTANCE;
         MilliData data = list.get(index);
         return data == null ? MilliNull.INSTANCE : data;
     }
 
-    @Nonnegative
     public int size() {
         return list.size();
     }
 
-    @Nonnull
+    @NotNull
     @Override
     protected String toString(int indent, int previous) {
         List<String> l = new ArrayList<>();
         for (MilliData element : list) l.add(element.toString(indent, previous + indent));
-        String tt = indent > 0 ? " ".repeat(indent + previous) : "";
-        String t = indent > 0 ? " ".repeat(previous) : "";
+        String tt = indent > 0 ? repeat(" ", indent + previous) : "";
+        String t = indent > 0 ? repeat(" ", previous) : "";
         String nn = indent > 0 ? "\n" : "";
         return "[" + nn + tt + String.join("," + nn + tt, l) + nn + t + "]";
     }
 
-    @Nonnull
+    @NotNull
     public List<MilliData> asList() {
         return list;
     }

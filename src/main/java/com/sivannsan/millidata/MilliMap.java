@@ -1,28 +1,26 @@
 package com.sivannsan.millidata;
 
-import com.sivannsan.foundation.annotation.Nonnegative;
-import com.sivannsan.foundation.annotation.Nonnull;
-import com.sivannsan.foundation.common.Validate;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
 public class MilliMap extends MilliData {
-    @Nonnull
+    @NotNull
     private final Map<String, MilliData> map = new LinkedHashMap<>();
 
     public MilliMap() {
     }
 
-    public MilliMap(@Nonnull String key, @Nonnull MilliData value) {
+    public MilliMap(@NotNull String key, @NotNull MilliData value) {
         put(key, value);
     }
 
-    public MilliMap(@Nonnull String k1, @Nonnull MilliData v1, @Nonnull String k2, @Nonnull MilliData v2) {
+    public MilliMap(@NotNull String k1, @NotNull MilliData v1, @NotNull String k2, @NotNull MilliData v2) {
         put(k1, v1);
         put(k2, v2);
     }
 
-    public MilliMap(@Nonnull String k1, @Nonnull MilliData v1, @Nonnull String k2, @Nonnull MilliData v2, @Nonnull String k3, @Nonnull MilliData v3) {
+    public MilliMap(@NotNull String k1, @NotNull MilliData v1, @NotNull String k2, @NotNull MilliData v2, @NotNull String k3, @NotNull MilliData v3) {
         put(k1, v1);
         put(k2, v2);
         put(k3, v3);
@@ -47,13 +45,13 @@ public class MilliMap extends MilliData {
         return Objects.hash(map);
     }
 
-    @Nonnull
-    public MilliMap append(@Nonnull String key, @Nonnull MilliData value) {
+    @NotNull
+    public MilliMap append(@NotNull String key, @NotNull MilliData value) {
         put(key, value);
         return this;
     }
 
-    public boolean superOf(@Nonnull MilliMap subMilliMap, int level) {
+    public boolean superOf(@NotNull MilliMap subMilliMap, int level) {
         for (MilliMap.Entry subEntry : subMilliMap.entries()) {
             boolean found = false;
             if (level == 0) {
@@ -74,15 +72,15 @@ public class MilliMap extends MilliData {
         return true;
     }
 
-    public boolean superOf(@Nonnull MilliMap subMilliMap) {
+    public boolean superOf(@NotNull MilliMap subMilliMap) {
         return superOf(subMilliMap, 0);
     }
 
-    public boolean contains(@Nonnull String key) {
+    public boolean contains(@NotNull String key) {
         return map.containsKey(key);
     }
 
-    public boolean contains(@Nonnull MilliData value) {
+    public boolean contains(@NotNull MilliData value) {
         return map.containsValue(value);
     }
 
@@ -94,21 +92,20 @@ public class MilliMap extends MilliData {
         map.clear();
     }
 
-    public void put(@Nonnull String key, @Nonnull MilliData value) {
-        map.put(Validate.nonnull(key), Validate.nonnull(value));
+    public void put(@NotNull String key, @NotNull MilliData value) {
+        map.put(key, value);
     }
 
-    public void remove(@Nonnull String key) {
+    public void remove(@NotNull String key) {
         map.remove(key);
     }
 
-    @Nonnull
-    public MilliData get(@Nonnull String key) {
+    @NotNull
+    public MilliData get(@NotNull String key) {
         MilliData data = map.get(key);
         return data == null ? MilliNull.INSTANCE : data;
     }
 
-    @Nonnegative
     public int size() {
         return map.size();
     }
@@ -116,7 +113,7 @@ public class MilliMap extends MilliData {
     /**
      * @return a view-only list of entries
      */
-    @Nonnull
+    @NotNull
     public List<MilliMap.Entry> entries() {
         MilliMap.Entry[] entries = new MilliMap.Entry[map.size()];
         String[] keys = map.keySet().toArray(new String[0]);
@@ -129,7 +126,7 @@ public class MilliMap extends MilliData {
     /**
      * @return a view-only list of keys
      */
-    @Nonnull
+    @NotNull
     public List<String> keys() {
         return Arrays.asList(map.keySet().toArray(new String[0]));
     }
@@ -137,7 +134,7 @@ public class MilliMap extends MilliData {
     /**
      * @return a view-only list of values
      */
-    @Nonnull
+    @NotNull
     public List<MilliData> values() {
         return Arrays.asList(map.values().toArray(new MilliData[0]));
     }
@@ -146,28 +143,28 @@ public class MilliMap extends MilliData {
     protected final String toString(int indent, int previous) {
         Set<String> s = new LinkedHashSet<>();
         String ss = indent > 0 ? " " : ""; //Space after colon
-        String tt = indent > 0 ? " ".repeat(indent + previous) : ""; //Space of the body
-        String t = indent > 0 ? " ".repeat(previous) : ""; //Space before closing curly bracket
+        String tt = indent > 0 ? repeat(" ", indent + previous) : ""; //Space of the body
+        String t = indent > 0 ? repeat(" ", previous) : ""; //Space before closing curly bracket
         String nn = indent > 0 ? "\n" : ""; //New line or not
         for (Entry entry : entries())
             s.add(new MilliValue(entry.getKey()) + ":" + ss + entry.getValue().toString(indent, previous + indent));
         return "{" + nn + tt + String.join("," + nn + tt, s) + nn + t + "}";
     }
 
-    @Nonnull
+    @NotNull
     public Map<String, MilliData> asMap() {
         return map;
     }
 
     public static class Entry {
-        @Nonnull
+        @NotNull
         private final String key;
-        @Nonnull
+        @NotNull
         private final MilliData value;
 
-        public Entry(@Nonnull String key, @Nonnull MilliData value) {
-            this.key = Validate.nonnull(key);
-            this.value = Validate.nonnull(value);
+        public Entry(@NotNull String key, @NotNull MilliData value) {
+            this.key = key;
+            this.value = value;
         }
 
         @Override
@@ -183,12 +180,12 @@ public class MilliMap extends MilliData {
             return Objects.hash(key, value);
         }
 
-        @Nonnull
+        @NotNull
         public String getKey() {
             return key;
         }
 
-        @Nonnull
+        @NotNull
         public MilliData getValue() {
             return value;
         }

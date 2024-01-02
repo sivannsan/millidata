@@ -1,7 +1,6 @@
 package com.sivannsan.millidata;
 
-import com.sivannsan.foundation.annotation.Nonnull;
-import com.sivannsan.foundation.common.Validate;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * @see com.sivannsan.millidata.MilliNull
@@ -13,24 +12,24 @@ public abstract class MilliData {
     @Override
     public abstract boolean equals(Object o);
 
-    @Nonnull
+    @NotNull
     @Override
     public final String toString() {
         return toString(0);
     }
 
-    @Nonnull
+    @NotNull
     public final String toString(int indent) {
         return toString(indent, 0);
     }
 
-    @Nonnull
+    @NotNull
     protected abstract String toString(int indent, int previous);
 
     /**
      * @param level negative value for infinite deep
      */
-    public final boolean superOf(@Nonnull MilliData subMilliData, int level) {
+    public final boolean superOf(@NotNull MilliData subMilliData, int level) {
         if (isMilliNull() && subMilliData.isMilliNull()) return true;
         else if (isMilliValue() && subMilliData.isMilliValue()) return asMilliValue().superOf(subMilliData.asMilliValue());
         else if (isMilliList() && subMilliData.isMilliList()) return asMilliList().superOf(subMilliData.asMilliList(), level);
@@ -38,7 +37,7 @@ public abstract class MilliData {
         else return false;
     }
 
-    public final boolean superOf(@Nonnull MilliData subMilliData) {
+    public final boolean superOf(@NotNull MilliData subMilliData) {
         return superOf(subMilliData, 0);
     }
 
@@ -58,33 +57,42 @@ public abstract class MilliData {
         return this instanceof MilliMap;
     }
 
-    @Nonnull
+    @NotNull
     public final MilliValue asMilliValue() {
         return isMilliValue() ? (MilliValue) this : MilliValue.EMPTY;
     }
 
-    @Nonnull
-    public final MilliValue asMilliValue(@Nonnull MilliValue defaultValue) {
-        return isMilliValue() ? (MilliValue) this : Validate.nonnull(defaultValue);
+    @NotNull
+    public final MilliValue asMilliValue(@NotNull MilliValue defaultValue) {
+        return isMilliValue() ? (MilliValue) this : defaultValue;
     }
 
-    @Nonnull
+    @NotNull
     public final MilliList asMilliList() {
         return isMilliList() ? (MilliList) this : new MilliList();
     }
 
-    @Nonnull
-    public final MilliList asMilliList(@Nonnull MilliList defaultValue) {
-        return isMilliList() ? (MilliList) this : Validate.nonnull(defaultValue);
+    @NotNull
+    public final MilliList asMilliList(@NotNull MilliList defaultValue) {
+        return isMilliList() ? (MilliList) this : defaultValue;
     }
 
-    @Nonnull
+    @NotNull
     public final MilliMap asMilliMap() {
         return isMilliMap() ? (MilliMap) this : new MilliMap();
     }
 
-    @Nonnull
-    public final MilliMap asMilliMap(@Nonnull MilliMap defaultValue) {
-        return isMilliMap() ? (MilliMap) this : Validate.nonnull(defaultValue);
+    @NotNull
+    public final MilliMap asMilliMap(@NotNull MilliMap defaultValue) {
+        return isMilliMap() ? (MilliMap) this : defaultValue;
+    }
+
+    @NotNull
+    protected final String repeat(@NotNull String s, int n) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            sb.append(s);
+        }
+        return sb.toString();
     }
 }

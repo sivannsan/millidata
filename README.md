@@ -13,9 +13,6 @@ yet the data are structured in the subset of Json data
 + MilliDataParser (`MilliData data = MilliDataParser.parse(string);`)
 + MilliDataConverter (`MilliData data = MilliDataConverter(object);`)
 
-### Requires
-+ [SIVANNSAN Foundation](https://github.com/sivannsan/foundation)
-
 ### Maven
 ```xml
 <repository>
@@ -27,6 +24,6 @@ yet the data are structured in the subset of Json data
 <dependency>
     <groupId>com.github.sivannsan</groupId>
     <artifactId>millidata</artifactId>
-    <version>1.2.0</version>
+    <version>1.3.0</version>
 </dependency>
 ```

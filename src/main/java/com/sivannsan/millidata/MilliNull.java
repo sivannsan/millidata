@@ -1,9 +1,9 @@
 package com.sivannsan.millidata;
 
-import com.sivannsan.foundation.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
 
 public class MilliNull extends MilliData {
-    @Nonnull
+    @NotNull
     public static final MilliNull INSTANCE = new MilliNull();
 
     private MilliNull() {
@@ -14,7 +14,7 @@ public class MilliNull extends MilliData {
         return o instanceof MilliNull;
     }
 
-    @Nonnull
+    @NotNull
     @Override
     protected String toString(int indent, int previous) {
         return "null";

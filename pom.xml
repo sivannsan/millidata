@@ -6,21 +6,21 @@
 
     <groupId>com.sivannsan</groupId>
     <artifactId>millidata</artifactId>
-    <version>1.2.0</version>
+    <version>1.3.0</version>
     <name>MilliData</name>
     <description>SIVANNSAN MilliData</description>
 
     <properties>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
     <dependencies>
         <dependency>
-            <groupId>com.sivannsan</groupId>
-            <artifactId>foundation</artifactId>
-            <version>1.0.0</version>
+            <groupId>org.jetbrains</groupId>
+            <artifactId>annotations-java5</artifactId>
+            <version>24.0.1</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
